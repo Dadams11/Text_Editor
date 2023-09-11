@@ -1,56 +1,32 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
-  entry: {
-    main: './src/js/index.js',
-    install: './src/js/install.js',
-  },
+  entry: path.resolve(__dirname, 'src/js/index.js'),
   output: {
-    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/index.html',
-      filename: 'index.html',
-    }),
-    new WebpackPwaManifest({
-      name: 'My Progressive Web App',
-      short_name: 'MyPWA',
-      description: 'My awesome Progressive Web App!',
-      background_color: '#ffffff',
-      crossorigin: 'use-credentials', // can be null, use-credentials or anonymous
-      icons: [
-        {
-          src: path.resolve('src/assets/icon.png'),
-          sizes: [96, 128, 192, 256, 384, 512], // multiple sizes
-        },
-      ],
-    }),
-    new InjectManifest({
-      swSrc: './src/src-sw.js',
-    }),
-  ],
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: 'babel-loader',
+      },
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
-        },
-      },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'index.html'), // Updated this line
+    }),
+    new InjectManifest({
+      swSrc: path.resolve(__dirname, 'src-sw.js'),
+    }),
+  ],
 };
