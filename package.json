@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Just Another Text Editor",
   "main": "server/server.js",
+  "engines": {
+    "node": "16.x",
+    "npm": "7.x"
+  },
   "scripts": {
     "serve": "serve -s dist",
     "start": "concurrently \"npm run server\" \"npm run client\"",
@@ -10,7 +14,7 @@
     "client": "webpack-dev-server --config client/webpack.config.js --open",
     "build": "webpack --mode production --config client/webpack.config.js --stats-children",
     "postinstall": "npm run build",
-    "heroku-postbuild": "npm install --only=dev && npm run build"
+    "heroku-postbuild": "npm run build"
   },
   "keywords": [],
   "author": "",
