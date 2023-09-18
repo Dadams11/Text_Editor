@@ -18,7 +18,7 @@ app.use(express.json());
 app.use('/favicon.ico', express.static(path.join(__dirname, '../client/favicon.ico')));
 
 // Import and use HTML routes
-// Remove the conflicting `app.get('/')` route here if it exists in your htmlRoutes
+
 require('./routes/htmlRoutes')(app);
 
 // Start the server
